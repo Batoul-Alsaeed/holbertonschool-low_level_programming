@@ -12,6 +12,6 @@ void print_alphabet(void)
 
 	for (i = 0; alphabet[i] != '\0'; i++)
 	{
-		_putchair(alphabet[i]);
+		_putchar(alphabet[i]);
 	}
 }

@@ -1,11 +1,19 @@
 #include "main.h"
 
 /**
- * print_number - Prints an integer using only _putchar
+ * print_number - Prints an integer using _putchar
  * @n: The integer to print
  */
 void print_number(int n)
 {
+	if (n == -2147483648)
+	{
+		_putchar('-');
+		_putchar('2');
+		print_number(147483648);
+		return;
+	}
+
 	if (n < 0)
 	{
 		_putchar('-');

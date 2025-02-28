@@ -14,7 +14,7 @@ int main(void)
 
 	srand(time(NULL));
 
-	for (int i = 0; sum < 2772 - 127; i++)
+	for (i = 0; sum < 2772 - 127; i++)
 	{
 		rand_num = rand() % 94 + 33;
 		password[i] = rand_num;

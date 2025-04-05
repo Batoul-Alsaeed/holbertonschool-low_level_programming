@@ -7,11 +7,11 @@
 #define BUF_SIZE 1024
 
 /**
- * main - copies the content of a file to another file
- * @ac: argument count
- * @av: argument vector
+ * main - Copies the content of a file to another file.
+ * @ac: Argument count
+ * @av: Argument vector
  *
- * Return: 0 on success, exit codes on failure
+ * Return: 0 on success, or exit with specific codes on failure
  */
 int main(int ac, char **av)
 {
@@ -34,29 +34,29 @@ int main(int ac, char **av)
 	fd_to = open(av[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd_to == -1)
 	{
-		close(fd_from);
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", av[2]);
+		close(fd_from);
 		exit(99);
 	}
 
-	while ((r = read(fd_from, buffer, BUF_SIZE)) > 0)
+	while ((r = read(fd_from, buffer, BUF_SIZE)) != 0)
 	{
-		w = write(fd_to, buffer, r);
-		if (w != r)
+		if (r == -1)
 		{
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", av[1]);
 			close(fd_from);
 			close(fd_to);
+			exit(98);
+		}
+
+		w = write(fd_to, buffer, r);
+		if (w == -1 || w != r)
+		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", av[2]);
+			close(fd_from);
+			close(fd_to);
 			exit(99);
 		}
-	}
-
-	if (r == -1)
-	{
-		close(fd_from);
-		close(fd_to);
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", av[1]);
-		exit(98);
 	}
 
 	if (close(fd_from) == -1)
